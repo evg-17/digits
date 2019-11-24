@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta -->
+        <meta charset="utf-8"/>
+        <meta content="initial-scale=1, width=device-width" name="viewport"/>
+
+        <!-- http://getbootstrap.com/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- App's own CSS -->
+        <link href="/static/styles.css" rel="stylesheet"/>
+
+        <!-- http://jquery.com/ -->
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- http://getbootstrap.com/ -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- app's own JavaScript -->
+        <script src="/static/scripts.js"></script>
+
+        <!-- tensorflow.js for pre-trained model -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+
+
+        <title>Digits Recognizer</title>
+
+    </head>
+    <body>
+        <!-- Fill viewport -->
+        <div class="container-fluid d-flex p-2">
+
+            <div class="row">
+                <!--Add a picture of handwritting digits-->
+                <div class="col-md-2 image"></div>
+
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="header"><b>DIGIT RECOGNIZER</b><hr></div>
+                    </div>
+                    <div class="row box">
+                        <div class="col-md-5 canvas">
+
+                             <!-- Add canvas for handwritting digits -->
+                             <!--id "myCanvas" is necessary to refer to by JS-->
+                            <canvas id="myCanvas" width="140" height="140"></canvas>
+                        </div>
+                        <!--Add buttons-->
+                        <div class="col-md-3 buttons">
+                            <div class="row">
+                                <button class="button" id="predict">Predict</button>
+                            </div>
+                            <div class="row">
+                                <button class="button" id="clear">Clear</button>
+                            </div>
+                        </div>
+                        <!--The area where the recognized digit is shown-->
+                        <div class="col-md-4 result">
+                            <p id="digit"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="instructions">
+                                <p id="inst">Write a number from 0 to 9 at the square. Then click the Predict button. Use the Clear button to clear the square.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+
+    </body>
+    <script>
+
+                // Load the pretrained model, check if the model is loaded
+                async function predictDigit() {
+                const model = await tf.loadLayersModel("/static/model.json");
+                console.log("Model is loaded");
+
+                // Find <myCanvas> element
+                var canvas = document.getElementById("myCanvas");
+                const context = canvas.getContext("2d");
+
+                // Get the image from the canvas, 0 and 0 point to top left corner of the canvas
+                const image = context.getImageData(0, 0, canvas.width, canvas.height);
+
+                // Calcilate the number of pixels on the canvas
+                const pixels = image.width * image.height;
+
+                const pix_arr = new Array(pixels);
+
+                // Put in each element of array the data from image
+                for (let i = 0; i < pixels; i++){
+                    pix_arr[i] = image.data[i * 4 +3] / 255.0;
+                }
+
+                // Convert array into tensor and resize it (to format which our model can process)
+                const imgData = tf.tensor(pix_arr, [1, 140, 140, 1])
+                                .resizeNearestNeighbor([28, 28]);
+
+                // Give prepared data to the model for prediction
+                const prediction = await model.predict(imgData).data();
+
+                // Get the result of prediction
+                var digit = tf.argMax(prediction).dataSync()[0];
+                document.getElementById("digit").innerHTML = digit;
+
+                }
+
+
+            </script>
+
+</html>

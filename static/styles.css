@@ -1,0 +1,92 @@
+.body {
+    font-size: 40;
+    color: #3e2723;
+}
+
+.image {
+    overflow: hidden;
+    background-image: url('Digits.png');
+    height: 100vh;
+    background-color: #6d4c41;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.canvas, .buttons, .result {
+    height: 50vh;
+    /*border: 1px solid black;*/
+}
+
+.col-md-4, .col-md-12 {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.header, .instructions {
+    height: 25vh;
+}
+
+.header {
+    padding-left: 30px;
+    padding-top: 30px;
+    font-size: 32px;
+}
+
+hr {
+    border: 3px solid #3e2723;
+    border-radius: 3px;
+    width: 75%;
+    margin-left: 2px;
+}
+
+.col-md-10 {
+    background-image: linear-gradient(to bottom right, #d7ccc8, #6d4c41 );
+}
+
+.button {
+    background-color: #3e2723;
+    color: white;
+    font-size: 32px;
+    border-radius: 12px;
+    width: 50%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+#myCanvas {
+    border: 3px solid #3e2723;
+    border-width: 8px 5px 5px 8px;
+    border-radius: 12px;
+}
+
+.canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#inst {
+    font-size: 25px;
+    color: white;
+    background-color: #3e2723;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#digit {
+    font-size: 150px;
+    color: #3e2723;
+}
