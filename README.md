@@ -10,4 +10,4 @@ Then it tries to recognize this digit.
 For recognition the app uses a pretrained neural network.
 A convolutional neural network was made and pretrained for this project.
 
-[Link to my project] (https://youtu.be/oPjg7bsT0dI)
+[Link to my project] (https://www.youtube.com/watch?v=RFoaBGjuhyI)
